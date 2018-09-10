@@ -13,7 +13,6 @@
 #include "allegro5/mouse.h"
 #include <vector>
 #include <iostream>
-#include <fstream>
 #include "Menu.h"
 using namespace std;
 const int SCREEN_W = 1280;
@@ -23,20 +22,23 @@ enum KEYS { W, A, S, D , R, ESC};
 class Sokoban {
 
 private:
+	ALLEGRO_BITMAP * bitmap = NULL;
+	ALLEGRO_BITMAP *tile = NULL;
 	ALLEGRO_SAMPLE * bgm = NULL;
 	vector<vector<int>> mat;
 	vector<vector<int>> def;
 	ifstream map;
 	bool key[6] = { false, false, false, false, false, false };
 	bool level[3] = { true, false, false };
-	int passi = 0;
-	int spin = 0;
+	int passi;
+	int spin;
+	vector<int> tot;
 
 public:
 	Sokoban();
-	void gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font);
-	void stampa(ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font);
-	void move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font);
+	void gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_FONT *font);
+	void stampa(ALLEGRO_FONT *font);
+	void move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font);
 	void load();
 };
 

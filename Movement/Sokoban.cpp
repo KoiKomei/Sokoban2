@@ -1,17 +1,26 @@
 #include "Sokoban.h"
 
 Sokoban::Sokoban() {
+
+	bitmap = al_load_bitmap("yukki.png");
+	tile = al_load_bitmap("tilesheet1.png");
 	bgm = al_load_sample("Gameplay.ogg");
+	passi = 0;
+	spin = 0;
+	tot.resize(2);
+	tot[0] = passi;
+	tot[1] = spin;
+
 }
 
-void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font) {
+void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_FONT *font) {
 	
 	
 	al_play_sample(bgm, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	bool done = false;
 	load();
 
-	stampa(bitmap, tile, font);
+	stampa(font);
 	while (!done) {
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(queue, &ev);
@@ -25,7 +34,7 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			done = true;
 		}
 		bool tro = false;
-		move(tro, ev, bitmap, tile, font);
+		move(tro, ev, font);
 		int cont = 0;
 		for (int i = 0; i < mat.size(); i++) {
 			for (int j = 0; j < mat[i].size(); j++) {
@@ -37,31 +46,57 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			}
 		}
 		//cout << cont << endl;
-		if (cont == 1 && level[0]) {
-			al_draw_text(font, al_map_rgb(255, 0, 0), 600, 600, ALLEGRO_ALIGN_LEFT, "PRIMO LIVELLO SUPERATO");
+		if (cont == 6 && level[0]) {
+			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "PRIMO LIVELLO SUPERATO");
 			al_flip_display();
 			al_rest(2.0f);
+			tot[0] += passi;
+			tot[1] += spin;
 			passi = 0;
 			spin = 0;
 			level[0] = false;
 			level[1] = true;
 			load();
-			stampa(bitmap, tile, font);
+			stampa(font);
 		}
-		else if(cont==1 && level[1]){
-			al_draw_text(font, al_map_rgb(255, 0, 0), 500, 600, ALLEGRO_ALIGN_LEFT, "SECONDO LIVELLO SUPERATO");
+		else if(cont==10 && level[1]){
+			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "SECONDO LIVELLO SUPERATO");
 			al_flip_display();
 			al_rest(2.0f);
+			tot[0] += passi;
+			tot[1] += spin;
 			passi = 0;
 			spin = 0;
 			level[1] = false;
 			level[2] = true;
 			load();
-			stampa(bitmap, tile, font);
+			stampa(font);
 		}
-		else if (cont == 1 && level[2]) {
-			al_draw_text(font, al_map_rgb(255, 0, 0), 300, 600, ALLEGRO_ALIGN_LEFT, "COMPLIMENTI, HAI FINITO TUTTI I LIVELLI");
+		else if (cont == 11 && level[2]) {
+			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "COMPLIMENTI, HAI FINITO TUTTI I LIVELLI");
 			al_flip_display();
+			tot[0] += passi;
+			tot[1] += spin;
+			ifstream record("record.txt");
+			int score[2] = { 0 };
+			for (int i = 1; i < 3; i++) {
+				record >> score[i-1];
+				
+			}
+			record.close();
+			cout << score[0] << "     " << score[1] << endl;
+			if (tot[0] < score[0]) {
+				ofstream rec("record.txt", ios::out, ios::trunc);
+				cout << tot[0] << "    " << tot[1] << endl;
+				rec << tot[0]<<endl;
+				rec << tot[1];
+				rec.close();
+			}
+			
+			tot[0] = 0;
+			tot[1] = 0;
+			passi = 0;
+			spin = 0;
 			al_rest(4.0f);
 			level[2] = false;
 			level[0] = true;
@@ -72,7 +107,7 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 	al_stop_samples();
 }
 
-void Sokoban::stampa(ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font) {
+void Sokoban::stampa(ALLEGRO_FONT *font) {
 	al_clear_to_color(al_map_rgb(0,0,0));
 	
 	for (int i = 0; i < mat.size(); i++) {
@@ -143,12 +178,13 @@ void Sokoban::stampa(ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT 
 	al_draw_text(font, al_map_rgb(255, 0, 0), 900, 0, ALLEGRO_ALIGN_LEFT, "ISTRUZIONI");
 	al_draw_text(font, al_map_rgb(255, 255, 255), 800, 50, ALLEGRO_ALIGN_LEFT, "WASD MOVIMENTO");
 	al_draw_text(font, al_map_rgb(255, 255, 255), 900, 100, ALLEGRO_ALIGN_LEFT, "ESC MENU'");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 890, 150, ALLEGRO_ALIGN_LEFT, "R RESTART");
 	
 	al_flip_display();
 	cout << endl;
 }
 
-void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font) {
+void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 	if (ev.type == ALLEGRO_EVENT_TIMER) {
 		if (key[W]) {
 			for (int i = 0; i < mat.size(); i++) {
@@ -174,7 +210,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_BITMAP *bitmap, ALLEGRO_B
 				}
 				if (tro) {
 					passi++;
-					stampa(bitmap, tile, font);
+					stampa(font);
 					break;
 				}
 			}
@@ -204,7 +240,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_BITMAP *bitmap, ALLEGRO_B
 				}
 				if (tro) {
 					passi++;
-					stampa(bitmap, tile, font);
+					stampa(font);
 					break;
 				}
 			}
@@ -235,7 +271,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_BITMAP *bitmap, ALLEGRO_B
 				}
 				if (tro) {
 					passi++;
-					stampa(bitmap, tile, font);
+					stampa(font);
 					break;
 				}
 
@@ -266,7 +302,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_BITMAP *bitmap, ALLEGRO_B
 				}
 				if (tro) {
 					passi++;
-					stampa(bitmap, tile, font);
+					stampa(font);
 					break;
 				}
 
@@ -282,7 +318,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_BITMAP *bitmap, ALLEGRO_B
 
 				}
 			}
-			stampa(bitmap, tile, font);
+			stampa(font);
 		}
 	}
 	else if (ev.type == ALLEGRO_EVENT_KEY_DOWN) {

@@ -1,6 +1,7 @@
 #pragma once
 #ifndef MENU_H
 #define MENU_H
+#include <fstream>
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_font.h"
 #include "allegro5/allegro_ttf.h"
@@ -14,6 +15,7 @@ private:
 	ALLEGRO_SAMPLE * bgm;
 	ALLEGRO_EVENT_QUEUE *menu;
 	ALLEGRO_BITMAP *bitmap;
+	ifstream score;
 
 public:
 	Menu();
