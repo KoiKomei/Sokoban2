@@ -23,6 +23,7 @@ enum KEYS { W, A, S, D , R, ESC};
 class Sokoban {
 
 private:
+	ALLEGRO_SAMPLE * bgm = NULL;
 	vector<vector<int>> mat;
 	vector<vector<int>> def;
 	ifstream map;
@@ -32,7 +33,7 @@ private:
 	int spin = 0;
 
 public:
-	Sokoban() {};
+	Sokoban();
 	void gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font);
 	void stampa(ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font);
 	void move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font);

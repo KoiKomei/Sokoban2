@@ -1,9 +1,13 @@
 #include "Sokoban.h"
 
+Sokoban::Sokoban() {
+	bgm = al_load_sample("Gameplay.ogg");
+}
+
 void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT *font) {
-	ALLEGRO_SAMPLE *bgm = NULL;
-	bgm = al_load_sample("101Day.ogg");
-	al_play_sample(bgm, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+	
+	
+	al_play_sample(bgm, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	bool done = false;
 	load();
 
@@ -34,6 +38,9 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 		}
 		//cout << cont << endl;
 		if (cont == 1 && level[0]) {
+			al_draw_text(font, al_map_rgb(255, 0, 0), 600, 600, ALLEGRO_ALIGN_LEFT, "PRIMO LIVELLO SUPERATO");
+			al_flip_display();
+			al_rest(2.0f);
 			passi = 0;
 			spin = 0;
 			level[0] = false;
@@ -42,6 +49,9 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			stampa(bitmap, tile, font);
 		}
 		else if(cont==1 && level[1]){
+			al_draw_text(font, al_map_rgb(255, 0, 0), 500, 600, ALLEGRO_ALIGN_LEFT, "SECONDO LIVELLO SUPERATO");
+			al_flip_display();
+			al_rest(2.0f);
 			passi = 0;
 			spin = 0;
 			level[1] = false;
@@ -50,6 +60,9 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			stampa(bitmap, tile, font);
 		}
 		else if (cont == 1 && level[2]) {
+			al_draw_text(font, al_map_rgb(255, 0, 0), 300, 600, ALLEGRO_ALIGN_LEFT, "COMPLIMENTI, HAI FINITO TUTTI I LIVELLI");
+			al_flip_display();
+			al_rest(4.0f);
 			level[2] = false;
 			level[0] = true;
 			done = true;
@@ -127,6 +140,9 @@ void Sokoban::stampa(ALLEGRO_BITMAP *bitmap, ALLEGRO_BITMAP *tile, ALLEGRO_FONT 
 	al_draw_text(font, al_map_rgb(255, 255, 255), 250, 100, ALLEGRO_ALIGN_LEFT, pas);
 	al_draw_text(font, al_map_rgb(255, 255, 255), 50, 200, ALLEGRO_ALIGN_LEFT, "SPINTE: ");
 	al_draw_text(font, al_map_rgb(255, 255, 255), 250, 200, ALLEGRO_ALIGN_LEFT, spinte);
+	al_draw_text(font, al_map_rgb(255, 0, 0), 900, 0, ALLEGRO_ALIGN_LEFT, "ISTRUZIONI");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 800, 50, ALLEGRO_ALIGN_LEFT, "WASD MOVIMENTO");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 900, 100, ALLEGRO_ALIGN_LEFT, "ESC MENU'");
 	
 	al_flip_display();
 	cout << endl;
