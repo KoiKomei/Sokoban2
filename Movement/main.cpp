@@ -24,11 +24,11 @@ int main() {
 		cout<<"failed to initialize allegro!"<<endl;
 		return -1;
 	}
-	al_install_keyboard();
-	if (!al_install_keyboard()) {
+	
+	/*if (!al_install_keyboard()) {
 		cout << "failed to initialize keyboard!" << endl;
 		return -1;
-	}
+	}*/
 
 	timer = al_create_timer(1.0 / FPS);
 	if (!timer) {
@@ -62,7 +62,7 @@ int main() {
 	}
 	al_register_event_source(queue, al_get_display_event_source(display));
 	al_register_event_source(queue, al_get_timer_event_source(timer));
-	al_register_event_source(queue, al_get_keyboard_event_source());
+	
 
 	al_init_primitives_addon();
 	if (!al_init_primitives_addon()) {
@@ -109,7 +109,7 @@ int main() {
 		
 		men.inizio(display, font, done);
 		if (!done) {
-			
+		
 			soko.gioca(display, queue, font);
 			
 		}

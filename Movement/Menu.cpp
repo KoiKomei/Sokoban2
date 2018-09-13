@@ -8,7 +8,6 @@ Menu::Menu() {
 
 
 void Menu::inizio(ALLEGRO_DISPLAY *display, ALLEGRO_FONT *font, bool &done) {
-	score.open("Record.txt");
 	
 	al_play_sample(bgm, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	bool ok = false;	
@@ -35,6 +34,7 @@ void Menu::inizio(ALLEGRO_DISPLAY *display, ALLEGRO_FONT *font, bool &done) {
 			if (ev.mouse.x >= 520 && ev.mouse.x <= 520 + al_get_text_width(font, "PLAYGAME") && ev.mouse.y >= 240 && ev.mouse.y <= 240 + al_get_font_ascent(font))
 				ok = true;
 			if (ev.mouse.x >= 560 && ev.mouse.x <= 560 + al_get_text_width(font, "RECORD") && ev.mouse.y >= 300 && ev.mouse.y <= 300 + al_get_font_ascent(font)) {
+				score.open("Record.txt");
 				int spacing = 450;
 				for (int i = 0; i < score.end; i++) {
 					score >> some;
@@ -48,15 +48,24 @@ void Menu::inizio(ALLEGRO_DISPLAY *display, ALLEGRO_FONT *font, bool &done) {
 					}
 					al_draw_text(font, al_map_rgb(255, 255, 0), 800, spacing, ALLEGRO_ALIGN_CENTER, som);
 					cout << some << endl;
-					spacing += 60;
+					
+					if (spacing == 450) {
+						spacing += 60;
+					}
+					else {
+						spacing = 450;
+					}
+					
+					
 				}
+				score.close();
 				al_flip_display();
+				
 			}
 		
 		}
 		
 		
 	}
-	score.close();
 	al_stop_samples();
 }

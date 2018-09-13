@@ -29,10 +29,11 @@ private:
 	vector<vector<int>> def;
 	ifstream map;
 	bool key[6] = { false, false, false, false, false, false };
-	bool level[3] = { true, false, false };
+	bool level[3] = { false, false, false };
 	int passi;
 	int spin;
 	vector<int> tot;
+
 
 public:
 	Sokoban();

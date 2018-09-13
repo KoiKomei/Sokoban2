@@ -1,7 +1,7 @@
 #include "Sokoban.h"
 
 Sokoban::Sokoban() {
-
+	
 	bitmap = al_load_bitmap("yukki.png");
 	tile = al_load_bitmap("tilesheet1.png");
 	bgm = al_load_sample("Gameplay.ogg");
@@ -14,27 +14,34 @@ Sokoban::Sokoban() {
 }
 
 void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_FONT *font) {
-	
-	
+	al_install_keyboard();
+	al_register_event_source(queue, al_get_keyboard_event_source());
+	bool imin = true;
+	level[0] = true;
 	al_play_sample(bgm, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	bool done = false;
 	load();
-
+	
 	stampa(font);
 	while (!done) {
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(queue, &ev);
-		if (ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE || key[ESC]) {
+		
+		bool tro = false;
+		if (key[ESC]) {
+			key[ESC] = false;
 			passi = 0;
 			spin = 0;
-			level[0] = true;
+			level[0] = false;
 			level[1] = false;
 			level[2] = false;
-			key[ESC] = false;
+
 			done = true;
+			break;
+
 		}
-		bool tro = false;
 		move(tro, ev, font);
+		
 		int cont = 0;
 		for (int i = 0; i < mat.size(); i++) {
 			for (int j = 0; j < mat[i].size(); j++) {
@@ -104,7 +111,9 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 		}
 
 	}
+	
 	al_stop_samples();
+	al_uninstall_keyboard();
 }
 
 void Sokoban::stampa(ALLEGRO_FONT *font) {
@@ -343,6 +352,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 			key[R] = true;
 			break;
 		case ALLEGRO_KEY_ESCAPE:
+			cout << "this shit better not work"<<endl;
 			key[ESC] = true;
 			break;
 		}
@@ -371,6 +381,8 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 			break;
 		case ALLEGRO_KEY_ESCAPE:
 			key[ESC] = false;
+			cout << "I swear" << endl;
+			break;
 		}
 	}
 
