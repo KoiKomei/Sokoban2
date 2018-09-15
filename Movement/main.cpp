@@ -13,7 +13,6 @@ int main() {
 
 	ALLEGRO_DISPLAY *display = NULL;
 	ALLEGRO_EVENT_QUEUE *queue = NULL;
-	ALLEGRO_EVENT_QUEUE *menu = NULL;
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_FONT *font = NULL;
 	
@@ -52,14 +51,14 @@ int main() {
 		al_destroy_timer(timer);
 		return -1;
 	}
-	al_install_mouse();
-	if (!al_install_mouse()) {
+	
+	/*if (!al_install_mouse()) {
 		cout << "failed to initialize mouse!" << endl;
 		al_destroy_display(display);
 		al_destroy_timer(timer);
 		al_destroy_event_queue(queue);
 		return -1;
-	}
+	}*/
 	al_register_event_source(queue, al_get_display_event_source(display));
 	al_register_event_source(queue, al_get_timer_event_source(timer));
 	

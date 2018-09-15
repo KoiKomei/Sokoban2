@@ -43,8 +43,8 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 		move(tro, ev, font);
 		
 		int cont = 0;
-		for (int i = 0; i < mat.size(); i++) {
-			for (int j = 0; j < mat[i].size(); j++) {
+		for (unsigned i = 0; i < mat.size(); i++) {
+			for (unsigned j = 0; j < mat[i].size(); j++) {
 				
 					if (mat[i][j] == 3 && def[i][j] == 4) {
 						cont++;
@@ -93,7 +93,7 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			record.close();
 			cout << score[0] << "     " << score[1] << endl;
 			if (tot[0] < score[0]) {
-				ofstream rec("record.txt", ios::out, ios::trunc);
+				ofstream rec("record.txt", ios::out);
 				cout << tot[0] << "    " << tot[1] << endl;
 				rec << tot[0]<<endl;
 				rec << tot[1];
@@ -119,8 +119,8 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 void Sokoban::stampa(ALLEGRO_FONT *font) {
 	al_clear_to_color(al_map_rgb(0,0,0));
 	
-	for (int i = 0; i < mat.size(); i++) {
-		for (int j = 0; j < mat[i].size(); j++) {
+	for (unsigned i = 0; i < mat.size(); i++) {
+		for (unsigned j = 0; j < mat[i].size(); j++) {
 			cout << mat[i][j];
 			if (mat[i][j] == 0) {
 				
@@ -178,8 +178,8 @@ void Sokoban::stampa(ALLEGRO_FONT *font) {
 	}
 	char pas[5];
 	char spinte[5];
-	sprintf_s(pas, "%d", passi);
-	sprintf_s(spinte, "%d", spin);
+	sprintf(pas, "%d", passi);
+	sprintf(spinte, "%d", spin);
 	al_draw_text(font, al_map_rgb(255, 255, 255), 50, 100, ALLEGRO_ALIGN_LEFT, "MOSSE: ");
 	al_draw_text(font, al_map_rgb(255, 255, 255), 250, 100, ALLEGRO_ALIGN_LEFT, pas);
 	al_draw_text(font, al_map_rgb(255, 255, 255), 50, 200, ALLEGRO_ALIGN_LEFT, "SPINTE: ");
@@ -196,8 +196,8 @@ void Sokoban::stampa(ALLEGRO_FONT *font) {
 void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 	if (ev.type == ALLEGRO_EVENT_TIMER) {
 		if (key[W]) {
-			for (int i = 0; i < mat.size(); i++) {
-				for (int j = 0; j < mat[i].size(); j++) {
+			for (unsigned i = 0; i < mat.size(); i++) {
+				for (unsigned j = 0; j < mat[i].size(); j++) {
 					if (mat[i][j] == 1 && i > 0 && mat[i - 1][j] != 2) {
 						if (mat[i - 1][j] == 3) {
 							if (mat[i - 2][j] == 0 || mat[i - 2][j] == 4) {
@@ -226,8 +226,8 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 
 		}
 		if (key[A]) {
-			for (int i = 0; i < mat.size(); i++) {
-				for (int j = 0; j < mat[i].size(); j++) {
+			for (unsigned i = 0; i < mat.size(); i++) {
+				for (unsigned j = 0; j < mat[i].size(); j++) {
 					if (mat[i][j] == 1 && j > 0 && mat[i][j - 1] != 2) {
 						if (mat[i][j - 1] == 3) {
 							if (mat[i][j - 2] == 0 || mat[i][j - 2] == 4) {
@@ -256,8 +256,8 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 
 		}
 		if (key[S]) {
-			for (int i = 0; i < mat.size(); i++) {
-				for (int j = 0; j < mat[i].size(); j++) {
+			for (unsigned i = 0; i < mat.size(); i++) {
+				for (unsigned j = 0; j < mat[i].size(); j++) {
 					if (mat[i][j] == 1 && i < mat.size() && mat[i + 1][j] != 2) {
 						if (mat[i + 1][j] == 3) {
 							if (mat[i + 2][j] == 0 || mat[i + 2][j] == 4) {
@@ -288,8 +288,8 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 
 		}
 		if (key[D]) {
-			for (int i = 0; i < mat.size(); i++) {
-				for (int j = 0; j < mat[i].size(); j++) {
+			for (unsigned i = 0; i < mat.size(); i++) {
+				for (unsigned j = 0; j < mat[i].size(); j++) {
 					if (mat[i][j] == 1 && j < mat[i].size() && mat[i][j + 1] != 2) {
 						if (mat[i][j + 1] == 3) {
 							if (mat[i][j + 2] == 0 || mat[i][j + 2] == 4) {
@@ -320,8 +320,8 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 		if (key[R]) {
 			passi = 0;
 			spin = 0;
-			for (int i = 0; i < mat.size(); i++) {
-				for (int j = 0; j < mat[i].size(); j++) {
+			for (unsigned i = 0; i < mat.size(); i++) {
+				for (unsigned j = 0; j < mat[i].size(); j++) {
 					
 						mat[i][j] = def[i][j];
 
@@ -393,7 +393,7 @@ void Sokoban::load() {
 		map.open("map1.txt");
 		def.resize(11);
 		mat.resize(11);
-		for (int i = 0; i < 11; i++) {
+		for (unsigned i = 0; i < 11; i++) {
 			def[i].resize(21);
 			mat[i].resize(21);
 		}
@@ -403,7 +403,7 @@ void Sokoban::load() {
 		map.open("map2.txt");
 		def.resize(10);
 		mat.resize(10);
-		for (int i = 0; i < 10; i++) {
+		for (unsigned i = 0; i < 10; i++) {
 			def[i].resize(14);
 			mat[i].resize(14);
 		}
@@ -413,14 +413,14 @@ void Sokoban::load() {
 		map.open("map3.txt");
 		def.resize(10);
 		mat.resize(10);
-		for (int i = 0; i < 10; i++) {
+		for (unsigned i = 0; i < 10; i++) {
 			def[i].resize(17);
 			mat[i].resize(17);
 		}
 	}
 	
-	for (int i = 0; i < def.size(); i++) {
-		for (int j = 0; j < def[i].size(); j++) {
+	for (unsigned i = 0; i < def.size(); i++) {
+		for (unsigned j = 0; j < def[i].size(); j++) {
 			map >> def[i][j];
 			mat[i][j] = def[i][j];
 		}

@@ -1,6 +1,7 @@
 #pragma once
 #ifndef SOKOBAN_H
 #define SOKOBAN_H
+#define _CRT_SECURE_NO_WARNINGS
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_primitives.h"
 #include "allegro5/allegro_font.h"
@@ -12,6 +13,7 @@
 #include "allegro5/allegro_acodec.h"
 #include "allegro5/mouse.h"
 #include <vector>
+
 #include <iostream>
 #include "Menu.h"
 using namespace std;

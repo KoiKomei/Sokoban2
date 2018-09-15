@@ -8,7 +8,7 @@ Menu::Menu() {
 
 
 void Menu::inizio(ALLEGRO_DISPLAY *display, ALLEGRO_FONT *font, bool &done) {
-	
+	al_install_mouse();
 	al_play_sample(bgm, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	bool ok = false;	
 	int some = 0;
@@ -39,7 +39,7 @@ void Menu::inizio(ALLEGRO_DISPLAY *display, ALLEGRO_FONT *font, bool &done) {
 				for (int i = 0; i < score.end; i++) {
 					score >> some;
 					char som[256];
-					sprintf_s(som, "%d", some);
+					sprintf(som, "%d", some);
 					if (spacing == 450) {
 						al_draw_text(font, al_map_rgb(255, 255, 255), 400, spacing, ALLEGRO_ALIGN_LEFT, "Minori mosse: ");
 					}
@@ -67,5 +67,6 @@ void Menu::inizio(ALLEGRO_DISPLAY *display, ALLEGRO_FONT *font, bool &done) {
 		
 		
 	}
+	al_uninstall_mouse();
 	al_stop_samples();
 }

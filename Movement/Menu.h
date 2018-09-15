@@ -1,12 +1,14 @@
 #pragma once
 #ifndef MENU_H
 #define MENU_H
+#define _CRT_SECURE_NO_WARNINGS
 #include <fstream>
 #include "allegro5/allegro.h"
 #include "allegro5/allegro_font.h"
 #include "allegro5/allegro_ttf.h"
 #include "allegro5/allegro_audio.h"
 #include "allegro5/allegro_acodec.h"
+
 #include <iostream>
 using namespace std;
 class Menu {
