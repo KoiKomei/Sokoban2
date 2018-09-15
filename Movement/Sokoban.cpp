@@ -32,6 +32,8 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			key[ESC] = false;
 			passi = 0;
 			spin = 0;
+			tot[0] = 0;
+			tot[1] = 0;
 			level[0] = false;
 			level[1] = false;
 			level[2] = false;
@@ -53,12 +55,10 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			}
 		}
 		//cout << cont << endl;
-		if (cont == 6 && level[0]) {
+		if (cont == 1 && level[0]) {
 			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "PRIMO LIVELLO SUPERATO");
 			al_flip_display();
 			al_rest(2.0f);
-			tot[0] += passi;
-			tot[1] += spin;
 			passi = 0;
 			spin = 0;
 			level[0] = false;
@@ -66,12 +66,10 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			load();
 			stampa(font);
 		}
-		else if(cont==10 && level[1]){
+		else if(cont==1 && level[1]){
 			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "SECONDO LIVELLO SUPERATO");
 			al_flip_display();
 			al_rest(2.0f);
-			tot[0] += passi;
-			tot[1] += spin;
 			passi = 0;
 			spin = 0;
 			level[1] = false;
@@ -79,11 +77,9 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			load();
 			stampa(font);
 		}
-		else if (cont == 11 && level[2]) {
+		else if (cont == 1 && level[2]) {
 			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "COMPLIMENTI, HAI FINITO TUTTI I LIVELLI");
 			al_flip_display();
-			tot[0] += passi;
-			tot[1] += spin;
 			ifstream record("record.txt");
 			int score[2] = { 0 };
 			for (int i = 1; i < 3; i++) {
@@ -93,7 +89,7 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			record.close();
 			cout << score[0] << "     " << score[1] << endl;
 			if (tot[0] < score[0]) {
-				ofstream rec("record.txt", ios::out);
+				ofstream rec("record.txt");
 				cout << tot[0] << "    " << tot[1] << endl;
 				rec << tot[0]<<endl;
 				rec << tot[1];
@@ -176,18 +172,26 @@ void Sokoban::stampa(ALLEGRO_FONT *font) {
 		}
 		cout << endl;
 	}
-	char pas[5];
-	char spinte[5];
-	sprintf(pas, "%d", passi);
-	sprintf(spinte, "%d", spin);
-	al_draw_text(font, al_map_rgb(255, 255, 255), 50, 100, ALLEGRO_ALIGN_LEFT, "MOSSE: ");
-	al_draw_text(font, al_map_rgb(255, 255, 255), 250, 100, ALLEGRO_ALIGN_LEFT, pas);
-	al_draw_text(font, al_map_rgb(255, 255, 255), 50, 200, ALLEGRO_ALIGN_LEFT, "SPINTE: ");
-	al_draw_text(font, al_map_rgb(255, 255, 255), 250, 200, ALLEGRO_ALIGN_LEFT, spinte);
-	al_draw_text(font, al_map_rgb(255, 0, 0), 900, 0, ALLEGRO_ALIGN_LEFT, "ISTRUZIONI");
-	al_draw_text(font, al_map_rgb(255, 255, 255), 800, 50, ALLEGRO_ALIGN_LEFT, "WASD MOVIMENTO");
-	al_draw_text(font, al_map_rgb(255, 255, 255), 900, 100, ALLEGRO_ALIGN_LEFT, "ESC MENU'");
-	al_draw_text(font, al_map_rgb(255, 255, 255), 890, 150, ALLEGRO_ALIGN_LEFT, "R RESTART");
+	char pas[256];
+	char spinte[256];
+	char totpas[256];
+	char totspin[256];
+	snprintf(pas,sizeof(pas), "%d", passi);
+	snprintf(spinte, sizeof(spinte), "%d", spin);
+	snprintf(totpas, sizeof(totpas), "%d", tot[0]);
+	snprintf(totspin, sizeof(totspin), "%d", tot[1]);
+	al_draw_text(font, al_map_rgb(255, 255, 255), 20, 0, ALLEGRO_ALIGN_LEFT, "MOSSE: ");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 160, 0, ALLEGRO_ALIGN_LEFT, pas);
+	al_draw_text(font, al_map_rgb(255, 255, 255), 20, 100, ALLEGRO_ALIGN_LEFT, "MOSSE TOT: ");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 240, 100, ALLEGRO_ALIGN_LEFT, totpas);
+	al_draw_text(font, al_map_rgb(255, 255, 255), 20, 50, ALLEGRO_ALIGN_LEFT, "SPINTE: ");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 160, 50, ALLEGRO_ALIGN_LEFT, spinte);
+	al_draw_text(font, al_map_rgb(255, 255, 255), 20, 150, ALLEGRO_ALIGN_LEFT, "SPINTE TOT: ");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 240, 150, ALLEGRO_ALIGN_LEFT, totspin);
+	al_draw_text(font, al_map_rgb(255, 0, 0), 970, 0, ALLEGRO_ALIGN_LEFT, "ISTRUZIONI");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 900, 50, ALLEGRO_ALIGN_LEFT, "WASD MOVIMENTO");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 970, 100, ALLEGRO_ALIGN_LEFT, "ESC MENU'");
+	al_draw_text(font, al_map_rgb(255, 255, 255), 960, 150, ALLEGRO_ALIGN_LEFT, "R RESTART");
 	
 	al_flip_display();
 	cout << endl;
@@ -205,6 +209,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 								mat[i - 1][j] = 1;
 								mat[i - 2][j] = 3;
 								spin++;
+								tot[1]++;
 								tro = true;
 								break;
 							}
@@ -219,6 +224,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 				}
 				if (tro) {
 					passi++;
+					tot[0]++;
 					stampa(font);
 					break;
 				}
@@ -235,6 +241,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 								mat[i][j - 1] = 1;
 								mat[i][j - 2] = 3;
 								spin++;
+								tot[1]++;
 								tro = true;
 								break;
 							}
@@ -249,6 +256,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 				}
 				if (tro) {
 					passi++;
+					tot[0]++;
 					stampa(font);
 					break;
 				}
@@ -265,6 +273,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 								mat[i + 1][j] = 1;
 								mat[i + 2][j] = 3;
 								spin++;
+								tot[1]++;
 								tro = true;
 								break;
 							}
@@ -280,6 +289,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 				}
 				if (tro) {
 					passi++;
+					tot[0]++;
 					stampa(font);
 					break;
 				}
@@ -297,6 +307,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 								mat[i][j + 1] = 1;
 								mat[i][j + 2] = 3;
 								spin++;
+								tot[1]++;
 								tro = true;
 								break;
 							}
@@ -310,6 +321,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 					}
 				}
 				if (tro) {
+					tot[0]++;
 					passi++;
 					stampa(font);
 					break;
@@ -318,6 +330,8 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 			}
 		}
 		if (key[R]) {
+			tot[0] -= passi;
+			tot[1] -= spin;
 			passi = 0;
 			spin = 0;
 			for (unsigned i = 0; i < mat.size(); i++) {

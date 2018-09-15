@@ -31,15 +31,15 @@ void Menu::inizio(ALLEGRO_DISPLAY *display, ALLEGRO_FONT *font, bool &done) {
 				al_destroy_event_queue(menu);
 				ok = true;
 			}
-			if (ev.mouse.x >= 520 && ev.mouse.x <= 520 + al_get_text_width(font, "PLAYGAME") && ev.mouse.y >= 240 && ev.mouse.y <= 240 + al_get_font_ascent(font))
+			if (ev.mouse.x >= 540 && ev.mouse.x <= 540 + al_get_text_width(font, "PLAYGAME") && ev.mouse.y >= 240 && ev.mouse.y <= 240 + al_get_font_ascent(font))
 				ok = true;
 			if (ev.mouse.x >= 560 && ev.mouse.x <= 560 + al_get_text_width(font, "RECORD") && ev.mouse.y >= 300 && ev.mouse.y <= 300 + al_get_font_ascent(font)) {
-				score.open("Record.txt");
+				score.open("record.txt");
 				int spacing = 450;
 				for (int i = 0; i < score.end; i++) {
 					score >> some;
 					char som[256];
-					sprintf(som, "%d", some);
+					snprintf(som, sizeof(som), "%d", some);
 					if (spacing == 450) {
 						al_draw_text(font, al_map_rgb(255, 255, 255), 400, spacing, ALLEGRO_ALIGN_LEFT, "Minori mosse: ");
 					}

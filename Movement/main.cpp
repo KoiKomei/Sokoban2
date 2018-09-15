@@ -16,25 +16,19 @@ int main() {
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_FONT *font = NULL;
 	
-	//al_init();
+	al_init();
 	
 	if (!al_init()) {
 		
 		cout<<"failed to initialize allegro!"<<endl;
 		return -1;
 	}
-	
-	/*if (!al_install_keyboard()) {
-		cout << "failed to initialize keyboard!" << endl;
-		return -1;
-	}*/
 
 	timer = al_create_timer(1.0 / FPS);
 	if (!timer) {
 		cout<<"failed to initialize timer!"<<endl;
 		return -1;
 	}
-
 	display = al_create_display(SCREEN_W, SCREEN_H);
 	if (!display) {
 		cout << "failed to initialize display!" << endl;
@@ -51,14 +45,6 @@ int main() {
 		al_destroy_timer(timer);
 		return -1;
 	}
-	
-	/*if (!al_install_mouse()) {
-		cout << "failed to initialize mouse!" << endl;
-		al_destroy_display(display);
-		al_destroy_timer(timer);
-		al_destroy_event_queue(queue);
-		return -1;
-	}*/
 	al_register_event_source(queue, al_get_display_event_source(display));
 	al_register_event_source(queue, al_get_timer_event_source(timer));
 	
@@ -76,16 +62,12 @@ int main() {
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	
 	al_init_font_addon();
-	if (!al_init_font_addon()) {
-		cout << "failed to initialize font!" << endl;
-		return -1;
-	}
 	al_init_ttf_addon();
 	if (!al_init_ttf_addon()) {
 		cout << "failed to initialize ttf!" << endl;
 		return -1;
 	}
-	font = al_load_font("ariali.ttf", 48, 0);
+	font = al_load_font("ariali.ttf", 36, 0);
 	al_init_acodec_addon();
 	if (!al_init_acodec_addon()) {
 		cout << "failed to initialize audiocodec!" << endl;
