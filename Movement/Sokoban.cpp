@@ -54,8 +54,7 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 				
 			}
 		}
-		//cout << cont << endl;
-		if (cont == 1 && level[0]) {
+		if (cont == 6 && level[0]) {
 			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "PRIMO LIVELLO SUPERATO");
 			al_flip_display();
 			al_rest(2.0f);
@@ -66,7 +65,7 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			load();
 			stampa(font);
 		}
-		else if(cont==1 && level[1]){
+		else if(cont==10 && level[1]){
 			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "SECONDO LIVELLO SUPERATO");
 			al_flip_display();
 			al_rest(2.0f);
@@ -77,7 +76,7 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			load();
 			stampa(font);
 		}
-		else if (cont == 1 && level[2]) {
+		else if (cont ==11 && level[2]) {
 			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "COMPLIMENTI, HAI FINITO TUTTI I LIVELLI");
 			al_flip_display();
 			ifstream record("record.txt");
