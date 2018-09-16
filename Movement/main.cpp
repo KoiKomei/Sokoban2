@@ -15,7 +15,12 @@ int main() {
 	ALLEGRO_EVENT_QUEUE *queue = NULL;
 	ALLEGRO_TIMER *timer = NULL;
 	ALLEGRO_FONT *font = NULL;
-	
+
+
+
+	/*INIZIALIZZATORI*/
+
+
 	al_init();
 	
 	if (!al_init()) {
@@ -86,13 +91,19 @@ int main() {
 		return -1;
 	}
 	al_reserve_samples(1);
+
 	
-	
+	/*FINE INIZIALIZZATORI*/
+
+
 	al_start_timer(timer);
 	bool done = false;
 	
 	Menu men;
 	Sokoban soko;
+
+
+	/*LOOP DEL GIOCO*/
 	while (!done) {
 		
 		men.inizio(display, font, done);

@@ -1,5 +1,5 @@
 #include "Sokoban.h"
-
+/*COSTRUTTORE DELLA CLASSE SOKOBAN*/
 Sokoban::Sokoban() {
 	
 	bitmap = al_load_bitmap("yukki.png");
@@ -13,6 +13,8 @@ Sokoban::Sokoban() {
 
 }
 
+
+/*FUNZIONE PER AVVIARE IL LATO GAMEPLAY*/
 void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_FONT *font) {
 	al_install_keyboard();
 	al_register_event_source(queue, al_get_keyboard_event_source());
@@ -20,13 +22,16 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 	al_play_sample(bgm, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	bool done = false;
 	load();
-	
 	stampa(font);
+
+	/*CICLO DEL LATO GAMEPLAY*/
 	while (!done) {
 		ALLEGRO_EVENT ev;
 		al_wait_for_event(queue, &ev);
 		
 		bool tro = false;
+
+		/*RITORNA AL MENU'*/
 		if (key[ESC]) {
 			key[ESC] = false;
 			passi = 0;
@@ -43,6 +48,7 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 	
 		move(tro, ev, font);
 		
+		/*CONTATORE PER VEDERE SE UN LIVELLO è FINITO O MENO*/
 		int cont = 0;
 		for (unsigned i = 0; i < mat.size(); i++) {
 			for (unsigned j = 0; j < mat[i].size(); j++) {
@@ -53,6 +59,8 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 				
 			}
 		}
+
+		/*DI SEGUITO, I CHECK PER PASSARE DA UN LIVELLO AD UN ALTRO*/
 		if (cont == 6 && level[0]) {
 			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "PRIMO LIVELLO SUPERATO");
 			al_flip_display();
@@ -78,6 +86,11 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			stampa(font);
 		}
 		else if (cont ==11 && level[2]) {
+
+
+			/*FINE DELL'ULTIMO LIVELLO CON AGGIORNAMENTO DEL MIGLIOR PUNTEGGIO IN CASO SI ABBIANO FATTO MENO PASSI*/
+
+
 			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "COMPLIMENTI, HAI FINITO TUTTI I LIVELLI");
 			al_flip_display();
 			ifstream record("record.txt");
@@ -111,6 +124,8 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 	al_uninstall_keyboard();
 }
 
+
+/*FUNZIONE CHE STAMPA TUTTO CIO' CHE è NELLA FINESTRA DI GAMEPLAY, PERSONAGGIO, MURA, SCATOLE, "CHECKPOINTS" ED ALTRO*/
 void Sokoban::stampa(ALLEGRO_FONT *font) {
 	al_clear_to_color(al_map_rgb(0,0,0));
 	
@@ -196,6 +211,9 @@ void Sokoban::stampa(ALLEGRO_FONT *font) {
 
 }
 
+
+/*LOGICA DEL MOVIMENTO NEL GIOCO E DELLE COLLISSIONI*/
+/*QUANDO SI MUOVE IL PERSONAGGIO CONTROLLA DAVANTI A LUI E DUE CASELLE PIU' AVANTI*/
 void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 	if (ev.type == ALLEGRO_EVENT_TIMER) {
 		if (key[W]) {
@@ -400,7 +418,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 	}
 
 }
-
+/*CARICAMENTO DEI LIVELLI ATTRAVERSO FILE DI TESTO*/
 void Sokoban::load() {
 	if (level[0]) {
 		map.open("map1.txt");
