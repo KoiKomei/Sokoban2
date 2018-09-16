@@ -30,7 +30,7 @@ int main() {
 	float fp = 0.0;
 	frames >> fp;
 	frames.close();
-	cout << "Questi sono gli fps: " << FPS/fp << endl;
+	cout << "Il gioco va a " << FPS/fp <<" fps"<< endl;
 	timer = al_create_timer(fp / FPS);
 	if (!timer) {
 		cout<<"failed to initialize timer!"<<endl;

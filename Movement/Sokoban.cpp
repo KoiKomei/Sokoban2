@@ -87,10 +87,10 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 				
 			}
 			record.close();
-			cout << score[0] << "     " << score[1] << endl;
+			
 			if (tot[0] < score[0]) {
 				ofstream rec("record.txt");
-				cout << tot[0] << "    " << tot[1] << endl;
+				
 				rec << tot[0]<<endl;
 				rec << tot[1];
 				rec.close();
@@ -116,7 +116,7 @@ void Sokoban::stampa(ALLEGRO_FONT *font) {
 	
 	for (unsigned i = 0; i < mat.size(); i++) {
 		for (unsigned j = 0; j < mat[i].size(); j++) {
-			cout << mat[i][j];
+		
 			if (mat[i][j] == 0) {
 				
 				al_draw_bitmap_region(tile, 0, 0, 32, 32, (SCREEN_H/22)*j+320, (SCREEN_H/22)*i+180, 0);
@@ -169,7 +169,7 @@ void Sokoban::stampa(ALLEGRO_FONT *font) {
 			}
 
 		}
-		cout << endl;
+		
 	}
 	char pas[256];
 	char spinte[256];
@@ -193,7 +193,7 @@ void Sokoban::stampa(ALLEGRO_FONT *font) {
 	al_draw_text(font, al_map_rgb(255, 255, 255), 960, 150, ALLEGRO_ALIGN_LEFT, "R RESTART");
 	
 	al_flip_display();
-	cout << endl;
+
 }
 
 void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
@@ -365,7 +365,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 			key[R] = true;
 			break;
 		case ALLEGRO_KEY_ESCAPE:
-			cout << "this shit better not work"<<endl;
+			
 			key[ESC] = true;
 			break;
 		}
@@ -394,7 +394,7 @@ void Sokoban::move(bool tro, ALLEGRO_EVENT ev, ALLEGRO_FONT *font) {
 			break;
 		case ALLEGRO_KEY_ESCAPE:
 			key[ESC] = false;
-			cout << "I swear" << endl;
+			
 			break;
 		}
 	}

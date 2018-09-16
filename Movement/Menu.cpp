@@ -27,7 +27,6 @@ void Menu::inizio(ALLEGRO_DISPLAY *display, ALLEGRO_FONT *font, bool &done) {
 		{
 			if (ev.mouse.x >= 600 && ev.mouse.x <= 600 + al_get_text_width(font, "EXIT") && ev.mouse.y >= 360 && ev.mouse.y <= 360 + al_get_font_ascent(font)) {
 				done = true;
-				cout << "You are clicking here";
 				al_destroy_event_queue(menu);
 				ok = true;
 			}
@@ -41,13 +40,12 @@ void Menu::inizio(ALLEGRO_DISPLAY *display, ALLEGRO_FONT *font, bool &done) {
 					char som[256];
 					snprintf(som, sizeof(som), "%d", some);
 					if (spacing == 450) {
-						al_draw_text(font, al_map_rgb(255, 255, 255), 400, spacing, ALLEGRO_ALIGN_LEFT, "Minori mosse: ");
+						al_draw_text(font, al_map_rgb(255, 255, 255), 610, spacing, ALLEGRO_ALIGN_CENTER, "Minori mosse: ");
 					}
 					else {
-						al_draw_text(font, al_map_rgb(255, 255, 255), 400, spacing, ALLEGRO_ALIGN_LEFT, "Minori spinte: ");
+						al_draw_text(font, al_map_rgb(255, 255, 255), 610, spacing, ALLEGRO_ALIGN_CENTER, "Minori spinte: ");
 					}
-					al_draw_text(font, al_map_rgb(255, 255, 0), 800, spacing, ALLEGRO_ALIGN_CENTER, som);
-					cout << some << endl;
+					al_draw_text(font, al_map_rgb(255, 255, 0), 730, spacing, ALLEGRO_ALIGN_LEFT, som);
 					
 					if (spacing == 450) {
 						spacing += 60;
