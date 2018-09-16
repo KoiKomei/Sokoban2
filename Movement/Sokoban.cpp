@@ -16,7 +16,6 @@ Sokoban::Sokoban() {
 void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGRO_FONT *font) {
 	al_install_keyboard();
 	al_register_event_source(queue, al_get_keyboard_event_source());
-	bool imin = true;
 	level[0] = true;
 	al_play_sample(bgm, 0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 	bool done = false;
@@ -37,11 +36,11 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			level[0] = false;
 			level[1] = false;
 			level[2] = false;
-
 			done = true;
 			break;
 
 		}
+	
 		move(tro, ev, font);
 		
 		int cont = 0;
@@ -57,7 +56,9 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 		if (cont == 6 && level[0]) {
 			al_draw_text(font, al_map_rgb(255, 0, 0), 640, 600, ALLEGRO_ALIGN_CENTRE, "PRIMO LIVELLO SUPERATO");
 			al_flip_display();
+	
 			al_rest(2.0f);
+			
 			passi = 0;
 			spin = 0;
 			level[0] = false;
@@ -101,7 +102,6 @@ void Sokoban::gioca(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *queue, ALLEGR
 			spin = 0;
 			al_rest(4.0f);
 			level[2] = false;
-			level[0] = true;
 			done = true;
 		}
 

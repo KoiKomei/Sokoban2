@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include "allegro5/allegro_native_dialog.h"
 #include "Sokoban.h"
 
 
@@ -7,7 +7,7 @@ using namespace std;
 
 
 int main() {
-	const float FPS = 15;
+	const float FPS = 60;
 	const int SCREEN_W = 1280;
 	const int SCREEN_H = 720;
 
@@ -23,8 +23,15 @@ int main() {
 		cout<<"failed to initialize allegro!"<<endl;
 		return -1;
 	}
-
-	timer = al_create_timer(1.0 / FPS);
+	int avvertimento = al_show_native_message_box(display, "ATTENZIONE",
+		"Riguardo gli fps, si possono modificare, se si vuole, tramite il file fps.txt", 
+		"A causa del timer di allegro, la ripetizione dei tasti potrebbe essere troppo veloce a 60fps, quindi gli fps base sono a 4/60 ovvero 15 frames al secondo", NULL, 0);
+	ifstream frames("fps.txt");
+	float fp = 0.0;
+	frames >> fp;
+	frames.close();
+	cout << "Questi sono gli fps: " << FPS/fp << endl;
+	timer = al_create_timer(fp / FPS);
 	if (!timer) {
 		cout<<"failed to initialize timer!"<<endl;
 		return -1;
@@ -80,7 +87,7 @@ int main() {
 	}
 	al_reserve_samples(1);
 	
-
+	
 	al_start_timer(timer);
 	bool done = false;
 	
