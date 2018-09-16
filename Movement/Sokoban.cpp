@@ -138,7 +138,7 @@ void Sokoban::stampa(ALLEGRO_FONT *font) {
 				
 				if (!key[W] && !key[A] && !key[S] && !key[D]) {
 				
-					al_draw_bitmap_region(bitmap, 0, 0, 32, 32, (SCREEN_H/22) * j + 320, (SCREEN_H/22)*i + 180, 0);
+					al_draw_bitmap_region(bitmap, 0, 64, 32, 32, (SCREEN_H/22) * j + 320, (SCREEN_H/22)*i + 180, 0);
 				}
 				else if (key[W]) {
 					
